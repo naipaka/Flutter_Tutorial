@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Startup Name Generator',
       theme: ThemeData(
-        primaryColor: Colors.lightGreen,
+        primaryColor: Colors.white,
+        textTheme: TextTheme(
+          headline6: TextStyle(color: Colors.green),
+        ),
       ),
       home: RandomWords(),
     );
@@ -77,12 +80,17 @@ class RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Startup Name Generator'),
+          title: Text(
+            'Home',
+            style: Theme.of(context).textTheme.headline6,
+          ),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
-            IconButton(icon: Icon(Icons.add), onPressed: _pushSaved,),
-          ]
-      ),
+            IconButton(
+              icon: Icon(Icons.add_circle),
+              color: Colors.green,
+              onPressed: _pushSaved,
+            ),
+          ]),
       body: _buildSuggestions(),
     );
   }
@@ -92,7 +100,7 @@ class RandomWordsState extends State<RandomWords> {
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
           final Iterable<ListTile> tiles = _saved.map(
-                (WordPair pair) {
+            (WordPair pair) {
               return ListTile(
                 title: Text(
                   pair.asPascalCase,
@@ -101,18 +109,16 @@ class RandomWordsState extends State<RandomWords> {
               );
             },
           );
-          final List<Widget> divided = ListTile
-              .divideTiles(
+          final List<Widget> divided = ListTile.divideTiles(
             context: context,
             tiles: tiles,
-          )
-              .toList();
+          ).toList();
 
           return Scaffold(
             appBar: AppBar(
-                title: Text('Saved Suggestions'),
-          ),
-          body: ListView(children: divided),
+              title: Text('Saved Suggestions'),
+            ),
+            body: ListView(children: divided),
           );
         },
       ),
